@@ -11,9 +11,14 @@ const getProfile = require('../components/getProfile.js')
 const {saveSteps} = require('../components/countsteps.js')
 const {getFoodNutrients}=require('../components/fatsecret.js')
 const {getUSDAFoodNutrients}=require('../components/usda.js')
-const updateProfile = require('../components/editProfile.js')
+const {insertFoodLog,updateFoodLog,deleteFoodLog}=require('../components/insert_food_logs.js')
+const {updateProfile,updateNutrients} = require('../components/editProfile.js')
 const resetPassword = require('../components/resetPassword.js')
+const {getFoodLogs,getFoodLogsByDate,filter_food_logs,getNutrients} = require('../components/food_logs.js');
+const {getWaterIntake,getWaterIntakeRange} = require('../components/getWaterIntake.js');
+
 const createOrder = require("../components/createOrder");
+const waterIntake = require("../components/water.js");
 const { getSteps, getStepsRange } = require('../components/getSteps.js');
 const verifyPayment = require("../components/verifyPayment");
 const router = express.Router();    
@@ -39,10 +44,20 @@ router.get('/usda', userExists, getUSDAFoodNutrients);
 router.post('/profile',userExists,calculateCalories)
 router.post("/subscription/create-order", userExists, createOrder);
 router.post("/subscription/verify",userExists, verifyPayment);
-router.put('/profile',userExists,updateProfile)
+router.put('/updateprofile',userExists,updateProfile)
 router.post('/reset-password',userExists, otpSent, resetPassword);
 router.post('/forgot-password', userExists,otpVerify, resetPassword);
-
+router.get('/get-water-intake',userExists,getWaterIntake);
  router.get('/get-steps',userExists,getSteps);
+ router.post('/insert-food-logs',userExists,insertFoodLog)
+ router.post('/update-food-logs',userExists,updateFoodLog)
+ router.post('/delete-food-logs',userExists,deleteFoodLog)
+ router.get('/get-food-logs',userExists,getFoodLogs);
+ router.get('/get-food-logs-by-date',userExists,getFoodLogsByDate);
+ router.get('/filter-food-logs',userExists,filter_food_logs);
+ router.get('/get-nutrients',userExists,getNutrients);
+ router.post('/update-nutrients',userExists,updateNutrients)
+ router.get('/get-water-intake-range',userExists,getWaterIntakeRange);
+ router.post('/add-water-intake',userExists,waterIntake);
 router.get('/get-steps-range',userExists,getStepsRange);
 module.exports=router

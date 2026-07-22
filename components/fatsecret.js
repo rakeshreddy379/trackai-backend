@@ -41,15 +41,12 @@ const getFoodNutrients = async (req, res) => {
         );
 console.log(searchResponse.data);
         const foods = searchResponse.data.foods.food;
-
         if (!foods) {
             return res.status(404).json({ message: "Food not found" });
         }
-
         const foodId = Array.isArray(foods)
             ? foods[0].food_id
             : foods.food_id;
-
         // Get Nutrients
         const detailsResponse = await axios.get(
             "https://platform.fatsecret.com/rest/server.api",

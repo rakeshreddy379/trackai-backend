@@ -1,5 +1,110 @@
 const pool = require("../services/postgre");
 
+async function updateNutrients(req, res, next) {
+
+    try {
+
+        const { userid } = req.user;
+
+        const {
+            calories_custom,
+            protein_custom,
+            carbs_custom,
+            fat_custom,
+            water_custom,
+            calories_custom_until,
+            protein_custom_until,
+            carbs_custom_until,
+            fat_custom_until,
+water_custom_until
+        } = req.body || {};
+        const fields = [];
+        const values = [];
+
+        let index = 1;
+
+
+        const data = {
+            calories_custom,
+            protein_custom,
+            carbs_custom,
+            fat_custom,
+ water_custom,
+            calories_custom_until,
+            protein_custom_until,
+            carbs_custom_until,
+            fat_custom_until,
+            water_custom_until
+        };
+        for (const key in data) {
+
+            if (data[key] !== undefined) {
+
+                fields.push(`${key} = $${index}`);
+                values.push(data[key]);
+                index++;
+
+            }
+
+        }
+
+
+        if (fields.length === 0) {
+
+            return res.status(400).json({
+                success: false,
+                message: "No nutrients provided for update"
+            });
+
+        }
+
+
+        values.push(userid);
+
+
+        const query = `
+            UPDATE profile
+            SET ${fields.join(", ")}
+            WHERE userid = $${index}
+            RETURNING *
+        `;
+
+
+        const result = await pool.query(query, values);
+
+
+        if (result.rows.length === 0) {
+
+            return res.status(404).json({
+                success:false,
+                message:"Profile not found"
+            });
+
+        }
+
+
+        res.status(200).json({
+            success:true,
+            message:"Custom nutrients updated successfully",
+            data:result.rows[0]
+        });
+
+
+    } catch(err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            success:false,
+            message:err.message
+        });
+
+    }
+}
+
+
+
+
 async function updateProfile(req, res) {
     try {
 
@@ -11,7 +116,7 @@ async function updateProfile(req, res) {
             height,
             weight,
             target_weight,
-            activityLevel,
+            activityLevel,water,
             goal,
             goalType,
             target_date,
@@ -158,4 +263,4 @@ async function updateProfile(req, res) {
     }
 }
 
-module.exports = updateProfile;
+module.exports = {updateProfile,updateNutrients};
