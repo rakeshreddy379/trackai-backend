@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload</title>
+</head>
+<body>
+    <h2>Upload Food Image</h2>
+
+    <form id="uploadForm">
+        <input type="text" id="userid" placeholder="Enter User ID" required />
+        <br /><br />
+
+        <input type="file" id="image" accept="image/*" required />
+        <br /><br />
+
+        <button type="submit">Upload</button>
+    </form>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const userid = document.getElementById("userid").value;
+            const imageFile = document.getElementById("image").files[0];
+
+            const formData = new FormData();
+            formData.append("userid", userid);
+            formData.append("image", imageFile);
+
+            try {
+                const response = await fetch("http://localhost:3000/analyze-food", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const result = await response.text();
+                console.log(result);
+                alert("Image uploaded successfully");
+            } catch (error) {
+                console.error(error);
+                alert("Upload failed");
+            }
+        });
+    </script>
+</body>
+</html>

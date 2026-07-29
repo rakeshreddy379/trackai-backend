@@ -1,23 +1,29 @@
 const bcrypt = require("bcrypt");
 const pool = require("../services/postgre.js");
 const userExists = require("../middlewares/userexists.js");
+const generateUserId=require('./generateUserId.js')
 
 const saltRounds = 10;
 
 async function signup(req, res,next) {
     try {
 console.log(req.body);
-        const {  email, password } = req.body;
+        const {email, password } = req.body;
         const userId = await generateUserId();
          
 
-        if (result.rows.length > 0) {
+       const gmail = await pool.query(
+    "SELECT * FROM login_details WHERE email = $1",
+    [email]
+);
 
-            return res.status(400).json({
-                success: false,
-                message: "User already exists"
-            });
-        }
+if (gmail.rows.length > 0) {
+    // Email exists
+    return res.status(409).json({
+        success: false,
+        message: "Email already exists"
+    });
+}
         // Hash password
         const hash = await bcrypt.hash(password, saltRounds);
 
@@ -32,6 +38,7 @@ console.log(req.body);
             [hash, email, userId, false]
         );
         if(result){
+            req.userId=userId;
             next();
         }
         

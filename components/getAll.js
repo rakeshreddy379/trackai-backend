@@ -1,4 +1,4 @@
-const {pool}= require('../services/postgre.js');
+const pool= require('../services/postgre.js');
 const {getNutrients} = require('./food_logs.js');
 const {getWaterIntake} = require('./getWaterIntake.js');
 async function getAll(req, res) {

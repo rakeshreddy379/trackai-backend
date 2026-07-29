@@ -5,14 +5,14 @@ async function userExists(req, res, next) {
     try {
 
         const { userid } = req.body || req.query || req.params;
-console.log("User ID from request:", userid);
+console.log("User exists:", userid);
         const result = await pool.query(
             "SELECT * FROM login_details WHERE userid = $1",
             [userid]
         );
 
         if (result.rows.length > 0) {
-
+        req.userid=userid
            next()
 
         }

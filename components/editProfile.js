@@ -4,7 +4,7 @@ async function updateNutrients(req, res, next) {
 
     try {
 
-        const { userid } = req.user;
+        const { userid } = req.body;
 
         const {
             calories_custom,
@@ -51,7 +51,7 @@ water_custom_until
 
         if (fields.length === 0) {
 
-            return res.status(400).json({
+            return res.status(200).json({
                 success: false,
                 message: "No nutrients provided for update"
             });
@@ -194,7 +194,7 @@ async function updateProfile(req, res) {
                 (fat * 9)
             ) / 4;
 
-        const water = weight * 35;
+         water = weight * 35;
 
         await pool.query(
             `

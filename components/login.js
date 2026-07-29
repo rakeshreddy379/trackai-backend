@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const pool = require("../services/postgre");
 const setUid=require("../services/auth").setUid;
-async function login(req, res) {
+async function login(req, res,next) {
     try {
         const { email, password } = req.body;
         console.log('login came ')
@@ -27,23 +27,25 @@ async function login(req, res) {
         );
 
         if (!match) {
-            return res.status(401).json({
+            return res.status(404).json({
                 success: false,
                 message: "Invalid password"
             });
         }
-        
-        
+        if(user.is_verified==false){
+           next()    
+        }
+        else{
         const token=setUid(user);
          res.cookie('usertoken', token, { httpOnly: false });
          console.log("success")
         return res.status(200).json({
             success: true,
             message: "Login successful",
-            userId: user.userid,
+            userid: user.userid,
             
         });
-
+    }
     } catch (err) {
 
         console.log(err);

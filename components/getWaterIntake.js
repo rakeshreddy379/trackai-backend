@@ -3,7 +3,7 @@ const pool = require("../services/postgre.js");
 async function getWaterIntake(req, res) {
 
     try {
-
+        console.log('water came')
         const { userid, intake_date } = req.query;
 
         const result = await pool.query(
@@ -56,7 +56,14 @@ async function getWaterIntakeRange(req, res) {
              ORDER BY intake_date ASC`,
             [userid, start_date, end_date]
         );
+         if (result.rows.length === 0) {
 
+            return res.status(200).json({
+                success: true,
+                msg:"no data found"
+            });
+
+        }
         res.status(200).json({
             success: true,
             data: result.rows

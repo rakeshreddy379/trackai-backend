@@ -28,7 +28,7 @@ console.log("User ID from request 1:", userid);
         WHEN calories_custom_until >= CURRENT_DATE
         THEN calories_custom
 
-        WHEN new_target_date >= CURRENT_DATE
+        WHEN new_target_calories_date >= CURRENT_DATE
         THEN new_target_calories
 
         ELSE target_calories
@@ -93,7 +93,7 @@ WHERE userid = $1;
         );
 
         if (result.rows.length === 0) {
-            return res.status(404).json({
+            return res.status(200).json({
                 success: false,
                 message: "Profile not found."
             });

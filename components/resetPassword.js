@@ -1,4 +1,4 @@
-const {pool} = require("../services/postgre");
+const pool = require("../services/postgre");
 const bcrypt = require("bcrypt");
 async function resetPassword(req, res) {
     try {

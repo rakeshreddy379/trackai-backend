@@ -5,7 +5,7 @@ async function getSteps(req, res) {
     try {
 
         const { userid, step_date } = req.query;
-
+console.log("step came")
         const result = await pool.query(
             `
             SELECT
@@ -23,7 +23,7 @@ async function getSteps(req, res) {
         );
 
         if (result.rows.length === 0) {
-            return res.status(404).json({
+            return res.status(200).json({
                 success: false,
                 message: "No step data found."
             });

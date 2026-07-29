@@ -1,4 +1,4 @@
-const { pool } = require("../services/postgre.js");
+const pool  = require("../services/postgre");
 
 async function getFoodLogs(req, res, next) {
 
@@ -11,7 +11,7 @@ async function getFoodLogs(req, res, next) {
             [userid]
         );
 
-        res.json(foodLogs.rows);
+        res.status(200).json(foodLogs.rows);
 
     } catch (err) {
 
@@ -83,29 +83,53 @@ async function getFoodLogsByDate(req, res, next) {
         });
 
     }
-
 }
 async function getNutrients(req, res, next) {
-    const { userid } = req.userid;
-    result = await pool.query(
+    console.log(req.userid)
+    const {userid} = req.query;
+    const {date} = req.query || req.params  ;
+    console.log(date)
+    const result = await pool.query(
 `
-SELECT 
-    COALESCE(SUM((food->>'kcal')::numeric),0) AS total_calories,
-    COALESCE(SUM((food->>'protein')::numeric),0) AS total_protein,
-    COALESCE(SUM((food->>'carbs')::numeric),0) AS total_carbs,
-    COALESCE(SUM((food->>'fat')::numeric),0) AS total_fat
-FROM analyzed_foods,
-jsonb_array_elements(detect_foods::jsonb) AS food
+SELECT
+    COALESCE(SUM((food->>'kcal')::numeric), 0) AS calories,
+    COALESCE(SUM((food->>'protein')::numeric), 0) AS protein,
+    COALESCE(SUM((food->>'carbs')::numeric), 0) AS carbs,
+    COALESCE(SUM((food->>'fat')::numeric), 0) AS fat,
+    COALESCE(SUM((food->>'fiber')::numeric), 0) AS fiber,
+    COALESCE(SUM((food->>'sugar')::numeric), 0) AS sugar
+FROM analyzed_foods
+CROSS JOIN LATERAL json_array_elements(detected_foods) AS food
 WHERE userid = $1
-AND analyzed_at::date = CURRENT_DATE;
+  AND analyzed_at::date = $2::date;
 `,
+[userid,date]
+);  
+res.status(200).json({data:result.rows});
+}
+async function getNutrientsRange(req, res, next) {
+    console.log(req.userid)
+    const {userid} = req.query;
+    console.log(userid)
+    const result = await pool.query(
+`
+SELECT
+    COALESCE(SUM((food->>'kcal')::numeric), 0) AS calories,
+    COALESCE(SUM((food->>'protein')::numeric), 0) AS protein,
+    COALESCE(SUM((food->>'carbs')::numeric), 0) AS carbs,
+    COALESCE(SUM((food->>'fat')::numeric), 0) AS fat,
+    COALESCE(SUM((food->>'fiber')::numeric), 0) AS fiber,
+    COALESCE(SUM((food->>'sugar')::numeric), 0) AS sugar
+FROM analyzed_foods
+CROSS JOIN LATERAL json_array_elements(detected_foods) AS food WHERE userid = $1 AND
+analyzed_at >= NOW() - INTERVAL '7 days'`,
 [userid]
 );
-return result.rows[0];
+res.status(200).json({data:result.rows});
 }
 
 module.exports = {
     getFoodLogs,
     filter_food_logs,
-    getFoodLogsByDate,getNutrients
+    getFoodLogsByDate,getNutrients,getNutrientsRange
 };

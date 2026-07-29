@@ -1,23 +1,26 @@
-const updateTargets = require("../services/updateTargets");
-const { pool } = require("../services/postgre.js");
+const {updateTargets} = require("../components/updateTargets");
+const pool = require("../services/postgre");
 
 async function insertFoodLog(req,res){
 
 try{
 
-const { userid } = req.userId;
-const { food_nutrients, meal_type } = req.food_log;
+const { userid } = req.body;
+const { food_nutrients, meal_type } = req.body;
+console.log(food_nutrients);
+console.log(typeof food_nutrients);
+
 
 
 await pool.query(
 `
-INSERT INTO food_logs
+INSERT INTO analyzed_foods
 (userid, detected_foods, meal_type, analyzed_at)
 VALUES($1,$2,$3,$4)
 `,
 [
 userid,
-food_nutrients,
+JSON.stringify(food_nutrients, null, 2),
 meal_type,
 new Date()
 ]
@@ -42,12 +45,11 @@ error:"Internal server error"
 
 }
 async function updateFoodLog(req,res){
-
 const {userid}=req.userId;
 
 await pool.query(
 `
-UPDATE food_logs
+UPDATE analyzed_logs
 SET detected_foods=$1
 WHERE id=$2 AND userid=$3
 `,
@@ -77,7 +79,7 @@ async function deleteFoodLog(req, res) {
         // Delete food log
         const result = await pool.query(
             `
-            DELETE FROM food_logs
+            DELETE FROM analyzed_foods
             WHERE id=$1 AND userid=$2
             RETURNING *
             `,

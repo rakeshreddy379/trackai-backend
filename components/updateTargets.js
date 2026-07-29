@@ -1,4 +1,4 @@
-const { pool } = require("./postgre.js");
+const pool = require("../services/postgre.js");
 
 async function updateTargets(userid) {
     try {
@@ -11,7 +11,7 @@ async function updateTargets(userid) {
             COALESCE(SUM((food->>'protein')::numeric),0) AS total_protein,
             COALESCE(SUM((food->>'carbs')::numeric),0) AS total_carbs,
             COALESCE(SUM((food->>'fat')::numeric),0) AS total_fat
-        FROM food_logs,
+        FROM analyzed_foods,
         jsonb_array_elements(detected_foods::jsonb) AS food
         WHERE userid=$1
         AND analyzed_at::date=CURRENT_DATE;
@@ -123,4 +123,4 @@ async function updateTargets(userid) {
 }
 
 
-module.exports = updateTargets;
+module.exports = {updateTargets};
