@@ -1,10 +1,10 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-    user: "postgres",
-    host: "localhost",
-    database: "trackai",
-    password: "4124",
+    user: "trackaiuser",
+    host: "dpg-d9lklmp42hec739tvtjg-a.singapore-postgres.render.com",
+    database: "trackai_3msz",
+    password: "xReQd4pJiVzzBG5PNyT2TX0COkFCjMDL",
     port: 5432,
 });
 
