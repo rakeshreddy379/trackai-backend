@@ -34,7 +34,9 @@ async function otpSent(req, res, next) {
             auth: {
                 user: process.env.EMAIL,
         pass: process.env.APP_PASSWORD
-            }
+            },lookup(hostname, options, callback) {
+        return dns.lookup(hostname, { family: 4 }, callback);
+    }
         });
 
         console.log("Verifying SMTP...");
