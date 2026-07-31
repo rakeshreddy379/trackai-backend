@@ -1,5 +1,7 @@
 const nodemailer=require('nodemailer')
 const pool=require('../services/postgre')
+const dns = require("dns");
+dns.setDefaultResultOrder("ipv4first");
 async function otpSent(req,res,next){
 try{
     const {email}=req.body
@@ -8,7 +10,7 @@ try{
     
     const userId=r.rows[0].userid
     console.log(userId)
-    if(r.rows.length===0){
+    if(r.rows.length===0){  
         res.status(404).json({msg:'user not found'})
     }
     const transporter=nodemailer.createTransport({

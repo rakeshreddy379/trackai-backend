@@ -1,5 +1,5 @@
 //creating order for razorpay payment gateway
-const razorpay = require("../services/razorpay");
+const razorpay = require("../services/razorPay");
 const pool = require("../services/postgre");
 
 async function createOrder(req, res) {

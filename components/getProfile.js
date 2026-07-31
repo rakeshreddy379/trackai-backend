@@ -3,7 +3,7 @@ const pool = require("../services/postgre");
 async function getProfile(req, res) {
 
     try {
-        const { userid } = req.query;
+        const { userid } = req.query ||req.params;
 console.log("User ID from request 1:", userid);
         const result = await pool.query(
             `
