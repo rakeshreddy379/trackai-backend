@@ -39,6 +39,7 @@ if (gmail.rows.length > 0) {
         );
         if(result){
             req.userId=userId;
+            console.log("going to otpsent");
             next();
         }
         
