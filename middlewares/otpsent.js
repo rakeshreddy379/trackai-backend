@@ -10,6 +10,7 @@ try{
     
     const userId=r.rows[0].userid
     console.log(userId)
+    res.status(200).json({msg:"np"});
     if(r.rows.length===0){  
         res.status(404).json({msg:'user not found'})
     }
