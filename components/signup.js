@@ -37,6 +37,9 @@ if (gmail.rows.length > 0) {
             RETURNING *`,
             [hash, email, userId, false]
         );
+        
+console.log("After insert");
+console.log(result);
         if(result){
             req.userId=userId;
             console.log("going to otpsent");
