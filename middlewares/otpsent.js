@@ -29,11 +29,14 @@ try{
         subject:`Your one time password(OTP) is ${random}`
     }
     try{
+        console.time("sendMail");
+
     const response=await transporter.sendMail(mailoptions)
      await pool.query(
         "DELETE FROM otpdetails WHERE email = $1",
         [email]
     );
+        console.timeEnd("sendMail");
     const result = await pool.query(`
         INSERT INTO otpdetails
         (userid,email,otp,otp_expires_at)
