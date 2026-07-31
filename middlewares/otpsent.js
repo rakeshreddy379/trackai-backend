@@ -13,6 +13,8 @@ try{
     if(r.rows.length===0){  
         res.status(404).json({msg:'user not found'})
     }
+    console.log("Before sendMail");
+
     const transporter=nodemailer.createTransport({
       host: 'smtp.gmail.com',
   port: 465,
