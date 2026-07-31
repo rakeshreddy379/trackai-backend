@@ -32,7 +32,7 @@ async function otpSent(req, res, next) {
             port: 587,
             secure: false,
             auth: {
-                user: gyanrock379@gmail.com,
+                user: 'gyanrock379@gmail.com',
                 pass: 'yljj cjhm pwnm difz'
             }
         });
