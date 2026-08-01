@@ -39,7 +39,7 @@ async function otpSent(req, res, next) {
 
         console.log("Verify  SMTP...");
 
-        await transporter.verify();
+       
 
         console.log("SMTP Verified");
 
