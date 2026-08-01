@@ -27,14 +27,16 @@ async function otpSent(req, res, next) {
 
         const random = Math.floor(100000 + Math.random() * 900000);
 
-        const transporter = nodemailer.createTransport({
+      const transporter = nodemailer.createTransport({
     host: "smtp-relay.brevo.com",
     port: 587,
     secure: false,
     auth: {
         user: process.env.BREVO_EMAIL,
         pass: process.env.BREVO_SMTP_KEY
-    }
+    },
+    logger: true,
+    debug: true
 });
 
         console.log("Verify  SMTP...");
@@ -45,7 +47,7 @@ async function otpSent(req, res, next) {
          console.log("receiver email=",email);
         console.log(process.env.BREVO_EMAIL);
         const mailOptions = {
-            from: 'gyanrock379@gmail.com',
+            from: '"TrackAI" <gyanrock379@gmail.com>',
                 to: email,
             subject: "OTP Verification",
             text: `Your OTP is ${random}. It is valid for 10 minutes.`
