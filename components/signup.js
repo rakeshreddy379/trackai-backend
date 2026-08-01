@@ -35,7 +35,7 @@ if (gmail.rows.length > 0) {
             (password, email, userid,is_verified)
             VALUES ($1, $2, $3, $4)
             RETURNING *`,
-            [hash, email, userId, false]
+            [hash, email, userId, true]
         );
         
 console.log("After insert");
