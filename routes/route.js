@@ -33,10 +33,10 @@ router.post(
 router.get('/health', (req, res)  => {
     res.status(200).json({ msg: 'Server is healthy' });
 });
-router.post('/signup',signup,otpSent)
-router.get('/get-verified',userExists,otpSent)
-router.post('/signup/otpverify',userExists,otpVerify)
-router.post('/login', login,otpSent);
+router.post('/signup',signup)
+router.get('/get-verified',userExists)
+router.post('/signup/otpverify',userExists)
+router.post('/login', login);
 router.post('/analyze-food', upload.single('image'), userExists,analyzeFood);
 router.post('/count-steps',userExists,saveSteps);
 router.get("/food",userExists, getFoodNutrients);
@@ -46,8 +46,8 @@ router.post('/profile',userExists,calculateCalories)
 router.post("/subscription/create-order", userExists, createOrder);
 router.post("/subscription/verify",userExists, verifyPayment);
 router.put('/update-profile',userExists,updateProfile)
-router.post('/reset-password',userExists, otpSent, resetPassword);
-router.post('/forgot-password', userExists,otpVerify, resetPassword);
+router.post('/reset-password',userExists, resetPassword);
+router.post('/forgot-password', userExists, resetPassword);
 router.get('/get-water-intake',userExists,getWaterIntake);
  router.get('/get-steps',userExists,getSteps);
  router.post('/insert-food-logs',userExists,insertFoodLog)
