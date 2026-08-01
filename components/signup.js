@@ -43,7 +43,7 @@ console.log(result);
         if(result){
             req.userId=userId;
             console.log("going to otpsent");
-            
+            res.status(200).json({msg:'account is created',userid:userId});
         }
         
         
