@@ -28,16 +28,14 @@ async function otpSent(req, res, next) {
         const random = Math.floor(100000 + Math.random() * 900000);
 
         const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            auth: {
-                user: process.env.EMAIL,
-        pass: process.env.APP_PASSWORD
-            },lookup(hostname, options, callback) {
-        return dns.lookup(hostname, { family: 4 }, callback);
+    host: "smtp-relay.brevo.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.BREVO_EMAIL,
+        pass: process.env.BREVO_SMTP_KEY
     }
-        });
+});
 
         console.log("Verifying SMTP...");
 
