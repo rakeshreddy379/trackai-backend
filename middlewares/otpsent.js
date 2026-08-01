@@ -37,7 +37,7 @@ async function otpSent(req, res, next) {
     }
 });
 
-        console.log("Verifying SMTP...");
+        console.log("Verify  SMTP...");
 
         await transporter.verify();
 
