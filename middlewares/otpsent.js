@@ -43,9 +43,9 @@ async function otpSent(req, res, next) {
 
         console.log("SMTP Verified");
          console.log("receiver email=",email);
-        console.log(process.env.BREVO_email);
+        console.log(process.env.BREVO_EMAIL);
         const mailOptions = {
-            from: process.env.BREVO_EMAIL,
+            from: 'gyanrock379@gmail.com,
             to: email,
             subject: "OTP Verification",
             text: `Your OTP is ${random}. It is valid for 10 minutes.`
