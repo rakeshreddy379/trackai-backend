@@ -43,7 +43,7 @@ async function otpSent(req, res, next) {
 
         console.log("SMTP Verified");
          console.log("receiver email=",email);
-        console.log(process.env.email);
+        console.log(process.env.BREVO_email);
         const mailOptions = {
             from: process.env.BREVO_EMAIL,
             to: email,
