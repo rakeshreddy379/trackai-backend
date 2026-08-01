@@ -54,11 +54,11 @@ async function otpSent(req, res, next) {
 
         console.log("Before sendMail");
 
-        console.time("sendMail");
+       
 
         const info = await transporter.sendMail(mailOptions);
 
-        console.timeEnd("sendMail");
+        
 
         console.log("After sendMail");
         console.log(info.response);
