@@ -192,7 +192,7 @@ const carbs =
         (fat * 9)
     ) / 4;
 console.log(weeklyChange[goal][goalType])
-const water = weight * 35;
+ water = weight * 35;
 
         await pool.query(
             `
