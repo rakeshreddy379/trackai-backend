@@ -1,8 +1,6 @@
 const { OAuth2Client } = require("google-auth-library");
 const pool=require('../services/postgre.js')
-const dotenv = require("dotenv");
-
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
+require("dotenv").config();
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const generateUserId=require('./generateUserId.js')
 async function googleLogin(req, res) {
