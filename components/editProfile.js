@@ -136,34 +136,33 @@ async function updateProfile(req, res) {
             athlete: 1.9
         };
 
-        const goalCalories = {
-            lose: {
-                slow: -250,
-                moderate: -500
-            },
-            maintain: {
-                maintenance: 0
-            },
-            gain: {
-                slow: 250,
-                moderate: 500
-            }
-        };
+       const goalCalories = {
+    lose: {
+        mild: -250,
+        moderate: -500
+    },
+    maintain: {
+        moderate: 0
+    },
+    gain: {
+        slow: 250,
+        moderate: 500
+    }
+};
 
-        const weeklyChange = {
-            lose: {
-                slow: "-0.25 kg/week",
-                moderate: "-0.5 kg/week"
-            },
-            maintain: {
-                maintenance: "0 kg/week"
-            },
-            gain: {
-                slow: "+0.25 kg/week",
-                moderate: "+0.5 kg/week"
-            }
-        };
-
+const weeklyChange = {
+    lose: {
+        mild: "-0.25 kg/week",
+        moderate: "-0.5 kg/week"
+    },
+    maintain: {
+        moderate: "0 kg/week"
+    },
+    gain: {
+        slow: "+0.25 kg/week",
+        moderate: "+0.5 kg/week"
+    }
+};
         const bmr =
             (10 * weight) +
             (6.25 * height) -
@@ -176,25 +175,24 @@ async function updateProfile(req, res) {
         const targetCalories =
             maintenanceCalories +
             goalCalories[goal][goalType];
-
         const proteinMultiplier = {
-            lose: 1.8,
-            maintain: 1.2,
-            gain: 1.6
-        };
+    lose: 1.8,
+    maintain: 1.2,
+    gain: 1.6
+};
 
-        const protein = weight * proteinMultiplier[goal];
+const protein = weight * proteinMultiplier[goal];
 
-        const fat = (targetCalories * 0.25) / 9;
+const fat = (targetCalories * 0.25) / 9;
 
-        const carbs =
-            (
-                targetCalories -
-                (protein * 4) -
-                (fat * 9)
-            ) / 4;
-
-         water = weight * 35;
+const carbs =
+    (
+        targetCalories -
+        (protein * 4) -
+        (fat * 9)
+    ) / 4;
+console.log(weeklyChange[goal][goalType])
+const water = weight * 35;
 
         await pool.query(
             `
@@ -236,9 +234,9 @@ async function updateProfile(req, res) {
                 Math.round(maintenanceCalories),
                 Math.round(targetCalories),
                 weeklyChange[goal][goalType],
-                Math.round(protein),
-                Math.round(fat),
-                Math.round(carbs),
+                Number(protein.toFixed(2)),
+Number(fat.toFixed(2)),
+Number(carbs.toFixed(2)),
                 Math.round(water),
                 target_date,
                 referral_source,
