@@ -31,7 +31,7 @@ async function analyzeFood(req, res) {
 
     try {
         const prompt =
-            'Return JSON only: {"foods":[{"name":"","serving":"","kcal":0,"protein":0,"carbs":0,"fat":0,"fiber":0,"sugar":0}]}. If image, identify foods and use a standard serving. If foodName is given, return nutrients for that food.';
+            'Return JSON only and serving either as count or grams: {"foods":[{"name":"","serving":"","kcal":0,"protein":0,"carbs":0,"fat":0,"fiber":0,"sugar":0}]}. If image, identify foods and use a standard serving. If foodName is given, return nutrients for that food.';
 
         let contents = [];
 
@@ -82,7 +82,7 @@ console.log("Parsed food data:", foodData)
         return res.status(200).json({
             success: true,
             result: foodData,
-            
+            userid: userid
         });
 
     } catch (err) {
