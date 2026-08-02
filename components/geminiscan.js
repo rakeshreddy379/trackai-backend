@@ -65,7 +65,7 @@ async function analyzeFood(req, res) {
         }
 
      const response = await generateWithRetry({
-    model: "gemini-2.5-flash-lite",
+    model: "gemini-3.1-flash-lite",
     contents,
     config: {
         responseMimeType: "application/json"
