@@ -45,7 +45,7 @@ console.log("goalType:", goalType);
             athlete: 1.9
         };
         const goalCalories = {
-    lose: {
+    loss: {
         mild: -250,
         moderate: -500
     },
@@ -59,7 +59,7 @@ console.log("goalType:", goalType);
 };
 
 const weeklyChange = {
-    lose: {
+    loss: {
         mild: "-0.25 kg/week",
         moderate: "-0.5 kg/week"
     },
@@ -84,7 +84,7 @@ const weeklyChange = {
             maintenanceCalories +
             goalCalories[goal][goalType];
         const proteinMultiplier = {
-    lose: 1.8,
+    loss: 1.8,
     maintain: 1.2,
     gain: 1.6
 };
