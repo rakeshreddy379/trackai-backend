@@ -148,9 +148,9 @@ async function updateTargets(userid) {
         `,
         [
             Math.round(newCalories),
-            Math.round(newProtein),
-            Math.round(newCarbs),
-            Math.round(newFat),
+           Number(newProtein.toFixed(2)),
+Number(newFat.toFixed(2)),
+Number(newCarbs.toFixed(2)),
             userid
         ]);
 
