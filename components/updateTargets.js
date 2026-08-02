@@ -28,7 +28,7 @@ async function updateTargets(userid) {
         } = result.rows[0];
 
 
-        // Get user target
+        // Get current targets
         const profile = await pool.query(
         `
         SELECT 
@@ -43,50 +43,88 @@ async function updateTargets(userid) {
         );
 
 
-        const {
-            target_calories,
-            protein,
-            carbs,
-            fat
-        } = profile.rows[0];
+        if(profile.rows.length === 0){
+            throw new Error("Profile not found");
+        }
 
 
-        let newCalories = target_calories;
+        // Convert PostgreSQL numeric strings to numbers
+        const targetCalories = Number(profile.rows[0].target_calories);
+        const protein = Number(profile.rows[0].protein);
+        const carbs = Number(profile.rows[0].carbs);
+        const fat = Number(profile.rows[0].fat);
+
+
+        const consumedCalories = Number(total_calories);
+        const consumedProtein = Number(total_protein);
+        const consumedCarbs = Number(total_carbs);
+        const consumedFat = Number(total_fat);
+
+
+        let newCalories = targetCalories;
         let newProtein = protein;
         let newCarbs = carbs;
         let newFat = fat;
 
 
-        // Calories
-        if(total_calories > target_calories)
-            newCalories = target_calories - Math.ceil((total_calories-target_calories)/6);
+        // Calories adjustment
+        if(consumedCalories > targetCalories) {
 
-        else if(total_calories < target_calories)
-            newCalories = target_calories + Math.ceil((target_calories-total_calories)/6);
+            newCalories = targetCalories -
+            Math.ceil((consumedCalories - targetCalories) / 6);
 
+        } 
+        else if(consumedCalories < targetCalories) {
 
-        // Protein
-        if(total_protein > protein)
-            newProtein = protein - Math.ceil((total_protein-protein)/6);
+            newCalories = targetCalories +
+            Math.ceil((targetCalories - consumedCalories) / 6);
 
-        else if(total_protein < protein)
-            newProtein = protein + Math.ceil((protein-total_protein)/6);
-
-
-        // Carbs
-        if(total_carbs > carbs)
-            newCarbs = carbs - Math.ceil((total_carbs-carbs)/6);
-
-        else if(total_carbs < carbs)
-            newCarbs = carbs + Math.ceil((carbs-total_carbs)/6);
+        }
 
 
-        // Fat
-        if(total_fat > fat)
-            newFat = fat - Math.ceil((total_fat-fat)/6);
+        // Protein adjustment
+        if(consumedProtein > protein) {
 
-        else if(total_fat < fat)
-            newFat = fat + Math.ceil((fat-total_fat)/6);
+            newProtein = protein -
+            Math.ceil((consumedProtein - protein) / 6);
+
+        } 
+        else if(consumedProtein < protein) {
+
+            newProtein = protein +
+            Math.ceil((protein - consumedProtein) / 6);
+
+        }
+
+
+        // Carbs adjustment
+        if(consumedCarbs > carbs) {
+
+            newCarbs = carbs -
+            Math.ceil((consumedCarbs - carbs) / 6);
+
+        } 
+        else if(consumedCarbs < carbs) {
+
+            newCarbs = carbs +
+            Math.ceil((carbs - consumedCarbs) / 6);
+
+        }
+
+
+        // Fat adjustment
+        if(consumedFat > fat) {
+
+            newFat = fat -
+            Math.ceil((consumedFat - fat) / 6);
+
+        } 
+        else if(consumedFat < fat) {
+
+            newFat = fat +
+            Math.ceil((fat - consumedFat) / 6);
+
+        }
 
 
 
@@ -109,16 +147,27 @@ async function updateTargets(userid) {
         WHERE userid=$5
         `,
         [
-            newCalories,
-            newProtein,
-            newCarbs,
-            newFat,
+            Math.round(newCalories),
+            Math.round(newProtein),
+            Math.round(newCarbs),
+            Math.round(newFat),
             userid
         ]);
 
+
+        console.log("Targets updated:", {
+            calories: Math.round(newCalories),
+            protein: Math.round(newProtein),
+            carbs: Math.round(newCarbs),
+            fat: Math.round(newFat)
+        });
+
+
     } catch(err){
+
         console.log("Target update error:",err);
         throw err;
+
     }
 }
 
