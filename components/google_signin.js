@@ -22,6 +22,7 @@ async function googleLogin(req, res) {
     
     if(result.rows.length===0){
         const userid=await generateUserId();
+        console.log(userid);
           await pool.query(`insert into login_details(email,userid,is_verified,google_id) values($1,$2,$3,$4)`,[email,userid,true,googleId]
 
           )
