@@ -32,7 +32,7 @@ async function googleLogin(req, res) {
     }
     else{
        
-        res.status(200).json({userid:result.rows[0].userid,token:userid})
+        res.status(200).json({userid:result.rows[0].userid,token:result.rows[0].userid)
     }
 }
    catch(err){
