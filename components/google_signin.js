@@ -28,11 +28,11 @@ async function googleLogin(req, res) {
         console.log("inserted");
            
           
-           res.status(200).json({userid:userid})
+           res.status(200).json({userid:userid,token:userid})
     }
     else{
        
-        res.status(200).json({userid:result.rows[0].userid})
+        res.status(200).json({userid:result.rows[0].userid,token:userid})
     }
 }
    catch(err){
