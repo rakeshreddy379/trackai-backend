@@ -3,7 +3,7 @@ const pool=require('../services/postgre.js')
 const generateUserId=require('../components/generateUserId.js')
 require("dotenv").config();
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-const generateUserId=require('./generateUserId.js')
+
 async function googleLogin(req, res) {
 
     const { idToken } = req.body;
