@@ -35,9 +35,10 @@ async function googleLogin(req, res) {
         res.status(200).json({userid:result.rows[0].userid})
     }
 }
-    catch(err){
-        res.status(401).json({msg:'invalid google token'})
-    }
+   catch(err){
+    console.log(err);
+    res.status(500).json({error: err.message});
+}
     /*
     payload.email
     payload.name
