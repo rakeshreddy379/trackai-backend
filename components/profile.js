@@ -19,6 +19,7 @@ async function calculateCalories(req, res,next) {
             referral_source,
             
         } = req.body;
+        console.log(req.body);
         console.log( userid,
             full_name,
             gender,
