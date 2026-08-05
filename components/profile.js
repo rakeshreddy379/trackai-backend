@@ -41,7 +41,7 @@ console.log("goal_type:", goal_type);
             female: -161
         };
 console.log("goal:", goal);
-console.log("goalType:", goalType);
+
         const activity = {
             sedentary: 1.2,
             lightly_active: 1.375,
