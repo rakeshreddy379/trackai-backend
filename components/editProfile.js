@@ -114,11 +114,11 @@ async function updateProfile(req, res) {
             gender,
             age,
             height,
-            weight,
-            target_weight,
-            activityLevel,water,
+            current_weight_kg,
+            target_weight_kg,
+            activity_level,water,
             goal,
-            goalType,
+            goal_type,
             target_date,
             referral_source
         } = req.body;
@@ -164,24 +164,25 @@ const weeklyChange = {
     }
 };
         const bmr =
-            (10 * weight) +
-            (6.25 * height) -
-            (5 * age) +
-            genderValue[gender];
+    (10 * current_weight_kg) +
+    (6.25 * height) -
+    (5 * age) +
+    genderValue[gender];
 
-        const maintenanceCalories =
-            bmr * activity[activityLevel];
+const maintenanceCalories =
+    bmr * activity[activity_level];
 
-        const targetCalories =
-            maintenanceCalories +
-            goalCalories[goal][goalType];
-        const proteinMultiplier = {
+const targetCalories =
+    maintenanceCalories +
+    goalCalories[goal][goal_type];
+
+const proteinMultiplier = {
     loss: 1.8,
     maintain: 1.2,
     gain: 1.6
 };
 
-const protein = weight * proteinMultiplier[goal];
+const protein = current_weight_kg * proteinMultiplier[goal];
 
 const fat = (targetCalories * 0.25) / 9;
 
@@ -191,8 +192,10 @@ const carbs =
         (protein * 4) -
         (fat * 9)
     ) / 4;
-console.log(weeklyChange[goal][goalType])
- water = weight * 35;
+
+console.log(weeklyChange[goal][goal_type]);
+
+const water_ml = current_weight_kg * 35;
 
         await pool.query(
             `
@@ -220,28 +223,28 @@ console.log(weeklyChange[goal][goalType])
                 updated_at = CURRENT_TIMESTAMP
             WHERE userid = $20
             `,
-            [
-                full_name,
-                gender,
-                age,
-                height,
-                weight,
-                target_weight,
-                activityLevel,
-                goal,
-                goalType,
-                Math.round(bmr),
-                Math.round(maintenanceCalories),
-                Math.round(targetCalories),
-                weeklyChange[goal][goalType],
-                Number(protein.toFixed(2)),
-Number(fat.toFixed(2)),
-Number(carbs.toFixed(2)),
-                Math.round(water),
-                target_date,
-                referral_source,
-                userid
-            ]
+           [
+    full_name,
+    gender,
+    age,
+    height,
+    current_weight_kg,
+    target_weight_kg,
+    activity_level,
+    goal,
+    goal_type,
+    Math.round(bmr),
+    Math.round(maintenanceCalories),
+    Math.round(targetCalories),
+    weeklyChange[goal][goal_type],
+    Number(protein.toFixed(2)),
+    Number(fat.toFixed(2)),
+    Number(carbs.toFixed(2)),
+    Math.round(water_ml),
+    target_date,
+    referral_source,
+    userid
+]
         );
 
         return res.status(200).json({
