@@ -157,7 +157,7 @@ const water = weight * 35;
     Number(fat.toFixed(2)),
     Number(carbs.toFixed(2)),
     Math.round(water),
-    minimum_steps,
+    7000,
     target_date,
     referral_source
 ]    );
