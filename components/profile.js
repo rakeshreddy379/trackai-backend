@@ -3,35 +3,39 @@ async function calculateCalories(req, res,next) {
 
     try {
 
-        const {
-                userid,
-            full_name,
-            gender,
-            age,
-            weight,
-            target_weight,
-            height,
-            activityLevel,
-            goal,
-            goalType,
-            target_date,
-            minimum_steps,
-            referral_source,
-            
-        } = req.body;
-        console.log(req.body);
-        console.log( userid,
-            full_name,
-            gender,
-            age,
-            weight,
-            target_weight,
-            height,
-            activityLevel,
-            goal,
-            goalType,
-            target_date,
-            referral_source,)
+       const {
+    userid,
+    full_name,
+    gender,
+    age,
+    current_weight_kg,
+    target_weight_kg,
+    height,
+    activity_level,
+    goal,
+    goal_type,
+    target_date,
+    minimum_steps,
+    referral_source,
+} = req.body; 
+      
+       console.log(
+    userid,
+    full_name,
+    gender,
+    age,
+    current_weight_kg,
+    target_weight_kg,
+    height,
+    activity_level,
+    goal,
+    goal_type,
+    target_date,
+    referral_source
+);
+
+console.log("goal:", goal);
+console.log("goal_type:", goal_type);
         const genderValue = {
             male: 5,
             female: -161
@@ -72,25 +76,26 @@ const weeklyChange = {
         moderate: "+0.5 kg/week"
     }
 };
-        const bmr =
-            (10 * weight) +
-            (6.25 * height) -
-            (5 * age) +
-            genderValue[gender];
+       const bmr =
+    (10 * current_weight_kg) +
+    (6.25 * height) -
+    (5 * age) +
+    genderValue[gender];
 
-        const maintenanceCalories =
-            bmr * activity[activityLevel];
+const maintenanceCalories =
+    bmr * activity[activity_level];
 
-        const targetCalories =
-            maintenanceCalories +
-            goalCalories[goal][goalType];
-        const proteinMultiplier = {
+const targetCalories =
+    maintenanceCalories +
+    goalCalories[goal][goal_type];
+
+const proteinMultiplier = {
     loss: 1.8,
     maintain: 1.2,
     gain: 1.6
 };
 
-const protein = weight * proteinMultiplier[goal];
+const protein = current_weight_kg * proteinMultiplier[goal];
 
 const fat = (targetCalories * 0.25) / 9;
 
@@ -100,8 +105,10 @@ const carbs =
         (protein * 4) -
         (fat * 9)
     ) / 4;
-console.log(weeklyChange[goal][goalType])
-const water = weight * 35;
+
+console.log(weeklyChange[goal][goal_type]);
+
+const water = current_weight_kg * 35;
         await pool.query(
             `INSERT INTO profile
             (
@@ -133,44 +140,43 @@ const water = weight * 35;
                 $11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21
             )
             `,
-            [
+           [
     userid,
     full_name,
     gender,
     age,
     height,
-    weight,
-    target_weight,
-    activityLevel,
+    current_weight_kg,
+    target_weight_kg,
+    activity_level,
     goal,
-    goalType,
+    goal_type,
     Math.round(bmr),
     Math.round(maintenanceCalories),
     Math.round(targetCalories),
-    weeklyChange[goal][goalType],
-  Number(protein.toFixed(2)),
-Number(fat.toFixed(2)),
-Number(carbs.toFixed(2)),
+    weeklyChange[goal][goal_type],
+    Number(protein.toFixed(2)),
+    Number(fat.toFixed(2)),
+    Number(carbs.toFixed(2)),
     Math.round(water),
     minimum_steps,
     target_date,
     referral_source
-]
-        );
+]    );
         res.status(201).json({
             success: true,
-            data: {
-                bmr: Math.round(bmr),
-                maintenanceCalories: Math.round(maintenanceCalories),
-                targetCalories: Math.round(targetCalories),
-                expectedWeeklyChange: weeklyChange[goal][goalType],
-                protein: Math.round(protein),
-                fat: Math.round(fat),
-                carbs: Math.round(carbs),
-                water: Math.round(water)  ,
-                minimum_steps: minimum_steps,  
-                target_date: target_date,
-            }
+          data: {
+    bmr: Math.round(bmr),
+    maintenanceCalories: Math.round(maintenanceCalories),
+    targetCalories: Math.round(targetCalories),
+    expectedWeeklyChange: weeklyChange[goal][goal_type],
+    protein: Math.round(protein),
+    fat: Math.round(fat),
+    carbs: Math.round(carbs),
+    water: Math.round(water),
+    minimum_steps,
+    target_date,
+}
         });
 
     } catch (err) {
