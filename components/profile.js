@@ -8,28 +8,27 @@ async function calculateCalories(req, res,next) {
     full_name,
     gender,
     age,
-    current_weight_kg,
-    target_weight_kg,
+    weight,
+    target_weight,
     height,
-    activity_level,
+    activityLevel,
     goal,
-    goal_type,
+    goalType,
     target_date,
-    minimum_steps,
-    referral_source,
+    referral_source
 } = req.body; 
       console.log('profile body:',req.body)
        console.log(
-    userid,
+     userid,
     full_name,
     gender,
     age,
-    current_weight_kg,
-    target_weight_kg,
+    weight,
+    target_weight,
     height,
-    activity_level,
+    activityLevel,
     goal,
-    goal_type,
+    goalType,
     target_date,
     referral_source
 );
@@ -77,17 +76,17 @@ const weeklyChange = {
     }
 };
        const bmr =
-    (10 * current_weight_kg) +
+    (10 * weight) +
     (6.25 * height) -
     (5 * age) +
     genderValue[gender];
 
 const maintenanceCalories =
-    bmr * activity[activity_level];
+    bmr * activity[activityLevel];
 
 const targetCalories =
     maintenanceCalories +
-    goalCalories[goal][goal_type];
+    goalCalories[goal][goalType];
 
 const proteinMultiplier = {
     loss: 1.8,
@@ -95,7 +94,7 @@ const proteinMultiplier = {
     gain: 1.6
 };
 
-const protein = current_weight_kg * proteinMultiplier[goal];
+const protein = weight * proteinMultiplier[goal];
 
 const fat = (targetCalories * 0.25) / 9;
 
@@ -146,15 +145,15 @@ const water = current_weight_kg * 35;
     gender,
     age,
     height,
-    current_weight_kg,
-    target_weight_kg,
-    activity_level,
+    weight,
+    target_weight,
+    activityLevel,
     goal,
-    goal_type,
+    goalType,
     Math.round(bmr),
     Math.round(maintenanceCalories),
     Math.round(targetCalories),
-    weeklyChange[goal][goal_type],
+    weeklyChange[goal][goalType],
     Number(protein.toFixed(2)),
     Number(fat.toFixed(2)),
     Number(carbs.toFixed(2)),
@@ -169,7 +168,7 @@ const water = current_weight_kg * 35;
     bmr: Math.round(bmr),
     maintenanceCalories: Math.round(maintenanceCalories),
     targetCalories: Math.round(targetCalories),
-    expectedWeeklyChange: weeklyChange[goal][goal_type],
+    expectedWeeklyChange: weeklyChange[goal][goalType],
     protein: Math.round(protein),
     fat: Math.round(fat),
     carbs: Math.round(carbs),
