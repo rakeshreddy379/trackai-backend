@@ -105,9 +105,8 @@ const carbs =
         (fat * 9)
     ) / 4;
 
-console.log(weeklyChange[goal][goal_type]);
 
-const water = current_weight_kg * 35;
+const water = weight * 35;
         await pool.query(
             `INSERT INTO profile
             (
