@@ -34,7 +34,7 @@ async function calculateCalories(req, res,next) {
 );
 
 console.log("goal:", goal);
-console.log("goal_type:", goal_type);
+
         const genderValue = {
             male: 5,
             female: -161
