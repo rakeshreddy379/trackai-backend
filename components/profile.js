@@ -18,7 +18,7 @@ async function calculateCalories(req, res,next) {
     minimum_steps,
     referral_source,
 } = req.body; 
-      
+      console.log('profile body:',req.body)
        console.log(
     userid,
     full_name,
