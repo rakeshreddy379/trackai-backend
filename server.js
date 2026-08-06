@@ -31,7 +31,7 @@ pool.query(`
 })
 .catch(err => {
     console.log(err);
-});----------- Routes ----------------
+});
 
 const authRoutes = require("./routes/route");
 
