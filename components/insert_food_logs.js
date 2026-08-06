@@ -51,7 +51,7 @@ const {userid,analysis_id}=req.body;
 
 await pool.query(
 `
-UPDATE analyzed_logs
+UPDATE analyzed_foods
 SET detected_foods=$1
 WHERE id=$2 AND userid=$3
 `,
