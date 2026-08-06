@@ -52,7 +52,7 @@ const {userid,analysis_id,analyzed_foods}=req.body;
 await pool.query(
 `
 UPDATE analyzed_foods
-SET detected_foods=$1
+SET detected_foods=$1::json
 WHERE analysis_id=$2 AND userid=$3
 `,
 [
