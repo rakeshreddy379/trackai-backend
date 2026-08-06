@@ -21,12 +21,17 @@ pool.connect()
     .catch((err) => {
         console.log("Database Error:", err.message);
     });
-pool.query("SELECT current_database(), current_schema()")
+pool.query(`
+    SELECT table_schema, table_name
+    FROM information_schema.tables
+    WHERE table_name = 'login_details'
+`)
 .then(result => {
-    console.log("Connected DB:", result.rows);
+    console.log("login_details check:", result.rows);
 })
-.catch(err => console.log(err));
-// ---------------- Routes ----------------
+.catch(err => {
+    console.log(err);
+});----------- Routes ----------------
 
 const authRoutes = require("./routes/route");
 
