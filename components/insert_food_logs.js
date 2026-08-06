@@ -4,14 +4,15 @@ const pool = require("../services/postgre");
 async function insertFoodLog(req,res){
 
 try{
+let { food_nutrients, meal_type } = req.body;
 
-const { userid } = req.body;
-const { food_nutrients, meal_type } = req.body;
+if (typeof food_nutrients === "string") {
+    food_nutrients = JSON.parse(food_nutrients);
+}
+
 console.log(food_nutrients);
 console.log(typeof food_nutrients);
-
-
-
+console.log(Array.isArray(food_nutrients));
 await pool.query(
 `
 INSERT INTO analyzed_foods
