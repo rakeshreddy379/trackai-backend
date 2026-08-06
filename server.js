@@ -22,9 +22,9 @@ pool.connect()
         console.log("Database Error:", err.message);
     });
 pool.query(`
-    SELECT table_schema, table_name
-    FROM information_schema.tables
-    WHERE table_name = 'login_details'
+    SELECT table_name 
+FROM information_schema.tables
+WHERE table_schema='public'
 `)
 .then(result => {
     console.log("login_details check:", result.rows);
