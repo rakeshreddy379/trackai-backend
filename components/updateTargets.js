@@ -12,7 +12,7 @@ async function updateTargets(userid) {
             COALESCE(SUM((food->>'carbs')::numeric),0) AS total_carbs,
             COALESCE(SUM((food->>'fat')::numeric),0) AS total_fat
         FROM analyzed_foods,
-        json_array_elements(detected_foods::jsonb) AS food
+        json_array_elements(detected_foods::json) AS food
         WHERE userid=$1
         AND analyzed_at::date=CURRENT_DATE;
         `,
