@@ -46,17 +46,17 @@ error:"Internal server error"
 }
 async function updateFoodLog(req,res){
  try{
-const {userid,analysis_id}=req.body;
+const {userid,analysis_id,analyzed_foods}=req.body;
  const id=analysis_id
 
 await pool.query(
 `
 UPDATE analyzed_foods
 SET detected_foods=$1
-WHERE id=$2 AND userid=$3
+WHERE analysis_id=$2 AND userid=$3
 `,
 [
-JSON.stringify(req.body.detected_foods),
+JSON.stringify(analyzed_foods),
 analysis_id,
 userid
 ]
@@ -85,7 +85,7 @@ const id=analysis_id
         const result = await pool.query(
             `
             DELETE FROM analyzed_foods
-            WHERE id=$1 AND userid=$2
+            WHERE analysis_id=$1 AND userid=$2
             RETURNING *
             `,
             [
