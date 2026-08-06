@@ -25,9 +25,7 @@ pool.query("SELECT current_database()")
 .then(result => {
     console.log("DATABASE:", result.rows);
 });
-.then(result => {
-    console.log("login_details check:", result.rows);
-})
+
 .catch(err => {
     console.log(err);
 });
