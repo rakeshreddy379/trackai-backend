@@ -105,7 +105,7 @@ const carbs =
         (fat * 9)
     ) / 4;
 
-
+const minimum_steps=10000
 const water = weight * 35;
         await pool.query(
             `INSERT INTO profile
@@ -157,7 +157,7 @@ const water = weight * 35;
     Number(fat.toFixed(2)),
     Number(carbs.toFixed(2)),
     Math.round(water),
-    10000,
+    minimum_steps,
     target_date,
     referral_source
 ]    );
