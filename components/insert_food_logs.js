@@ -20,7 +20,7 @@ VALUES($1,$2,$3,$4)
 `,
 [
 userid,
-JSON.stringify(food_nutrients.foods),
+JSON.stringify(food_nutrients),
 meal_type,
 new Date()
 ]
