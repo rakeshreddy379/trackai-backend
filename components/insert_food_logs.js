@@ -4,7 +4,7 @@ const pool = require("../services/postgre");
 async function insertFoodLog(req,res){
 
 try{
-let { food_nutrients, meal_type } = req.body;
+let { food_nutrients, meal_type,userid } = req.body;
 
 if (typeof food_nutrients === "string") {
     food_nutrients = JSON.parse(food_nutrients);
