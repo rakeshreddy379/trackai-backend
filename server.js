@@ -24,8 +24,7 @@ pool.connect()
 pool.query("SELECT current_database()")
 .then(result => {
     console.log("DATABASE:", result.rows);
-});
-
+})
 .catch(err => {
     console.log(err);
 });
