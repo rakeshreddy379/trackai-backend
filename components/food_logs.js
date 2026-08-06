@@ -92,6 +92,7 @@ async function getNutrients(req, res, next) {
     const result = await pool.query(
 `
 SELECT
+    analyzed_at::date AS date,
     COALESCE(SUM((food->>'kcal')::numeric), 0) AS calories,
     COALESCE(SUM((food->>'protein')::numeric), 0) AS protein,
     COALESCE(SUM((food->>'carbs')::numeric), 0) AS carbs,
@@ -101,7 +102,10 @@ SELECT
 FROM analyzed_foods
 CROSS JOIN LATERAL json_array_elements(detected_foods) AS food
 WHERE userid = $1
-  AND analyzed_at::date = $2::date;
+AND analyzed_at >= CURRENT_DATE - INTERVAL '7 days'
+AND analyzed_at < CURRENT_DATE
+GROUP BY analyzed_at::date
+ORDER BY date DESC;
 `,
 [userid,date]
 );  
