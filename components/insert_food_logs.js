@@ -45,7 +45,9 @@ error:"Internal server error"
 
 }
 async function updateFoodLog(req,res){
-const {userid}=req.userId;
+ try{
+const {userid,analysis_id}=req.body;
+ const id=analysis_id
 
 await pool.query(
 `
@@ -55,7 +57,7 @@ WHERE id=$2 AND userid=$3
 `,
 [
 JSON.stringify(req.body.detected_foods),
-req.body.foodlogid,
+analysis_id,
 userid
 ]
 );
@@ -68,13 +70,16 @@ await updateTargets(userid);
 res.json({
 message:"Food updated"
 });
-
+ }catch(err){
+  console.log('updated foodlogs error')
+  res.status(500).json({msg:'internal server'})
 } 
+}
 async function deleteFoodLog(req, res) {
     try {
-        const { userid } = req.userId;
-        const { id } = req.params;
-
+        const { userid } = req.body;
+        const { analysis_id  } = req.body;
+const id=analysis_id 
 
         // Delete food log
         const result = await pool.query(
