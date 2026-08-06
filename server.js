@@ -21,11 +21,10 @@ pool.connect()
     .catch((err) => {
         console.log("Database Error:", err.message);
     });
-pool.query(`
-    SELECT table_name 
-FROM information_schema.tables
-WHERE table_schema='public'
-`)
+pool.query("SELECT current_database()")
+.then(result => {
+    console.log("DATABASE:", result.rows);
+});
 .then(result => {
     console.log("login_details check:", result.rows);
 })
