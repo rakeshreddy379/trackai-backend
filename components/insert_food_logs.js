@@ -72,7 +72,7 @@ message:"Food updated"
 });
  }catch(err){
   console.log('updated foodlogs error')
-  res.status(500).json({msg:'internal server'})
+  res.status(500).json({msg:'internal server'error:err})
 } 
 }
 async function deleteFoodLog(req, res) {
