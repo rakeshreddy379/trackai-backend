@@ -129,6 +129,7 @@ async function updateProfile(req, res) {
             male: 5,
             female: -161
         };
+        console.log(req.body)
 
         const activity = {
             sedentary: 1.2,
