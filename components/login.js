@@ -38,6 +38,25 @@ async function login(req, res,next) {
         else{
         const token=setUid(user);
          res.cookie('usertoken', token, { httpOnly: false });
+         await pool.query(
+`
+INSERT INTO login_logs
+(
+ userid,
+ login_type,
+ status,
+ ip_address,
+ user_agent
+)
+VALUES($1,$2,$3,$4,$5)
+`,
+[
+ user.userid,
+ "email password",
+ "success",
+ req.ip || null,
+ req.headers["user-agent"] || null
+]);
          console.log("success")
         return res.status(200).json({
             success: true,
