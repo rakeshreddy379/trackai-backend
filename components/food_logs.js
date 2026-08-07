@@ -102,10 +102,8 @@ SELECT
 FROM analyzed_foods
 CROSS JOIN LATERAL json_array_elements(detected_foods) AS food
 WHERE userid = $1
-AND analyzed_at >= CURRENT_DATE - INTERVAL '7 days'
-AND analyzed_at < CURRENT_DATE
-GROUP BY analyzed_at::date
-ORDER BY date DESC;
+  AND analyzed_at::date = $2
+GROUP BY analyzed_at::date;
 `,
 [userid,date]
 );  
