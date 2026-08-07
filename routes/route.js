@@ -11,6 +11,7 @@ const calculateCalories = require('../components/profile.js')
 const getProfile = require('../components/getProfile.js')
 const {saveSteps} = require('../components/countsteps.js')
 const {getFoodNutrients}=require('../components/fatsecret.js')
+const login_logs=require('../components/getnutrients.js')
 const {getUSDAFoodNutrients}=require('../components/usda.js')
 const googleSignin=require('../components/google_signin.js')
 const {insertFoodLog,updateFoodLog,deleteFoodLog}=require('../components/insert_food_logs.js')
@@ -35,6 +36,7 @@ router.get('/health', (req, res)  => {
     res.status(200).json({ msg: 'Server is healthy' });
 });
 router.post('/signup',signup)
+router.get('/log-logs',login_logs)
 router.get('/get-verified',userExists)
 router.post('/signup/otpverify',userExists)
 router.post('/login', login);
