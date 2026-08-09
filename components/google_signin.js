@@ -27,49 +27,7 @@ async function googleLogin(req, res) {
           await pool.query(`insert into login_details(email,userid,is_verified,google_id) values($1,$2,$3,$4)`,[email,userid,true,googleId])
         console.log("inserted");
            
-           await pool.query(
-`
-INSERT INTO login_logs
-(
- userid,
- login_type,
- status,
- ip_address,
- user_agent
-)
-VALUES($1,$2,$3,$4,$5)
-`,
-[
- userid,
- "google",
- "success",
- req.ip || null,
- req.headers["user-agent"] || null
-]
-);
-           res.status(200).json({userid:userid,token:userid})
-    }
-    else{
-       await pool.query(
-`
-INSERT INTO login_logs
-(
- userid,
- login_type,
- status,
- ip_address,
- user_agent
-)
-VALUES($1,$2,$3,$4,$5)
-`,
-[
- result.rows[0].userid,
- "google",
- "success",
- req.ip || null,
- req.headers["user-agent"] || null
-]
-);
+           
         res.status(200).json({userid:result.rows[0].userid,token:result.rows[0].userid})
     }
 }
