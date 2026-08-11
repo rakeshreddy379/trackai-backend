@@ -4,7 +4,7 @@ const setUid=require("../services/auth").setUid;
 async function login(req, res,next) {
     try {
         const { email, password } = req.body;
-        console.log('login came ')
+        console.log('login came ',email,password)
         const result = await pool.query(
             `SELECT *
              FROM login_details
