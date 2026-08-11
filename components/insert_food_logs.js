@@ -29,7 +29,6 @@ new Date()
 
 
 // update target
-await updateTargets(userid);
 
 
 res.status(201).json({
@@ -65,7 +64,7 @@ userid
 
 
 // recalculate targets
-await updateTargets(userid);
+
 
 
 res.json({
@@ -102,7 +101,7 @@ const id=analysis_id
         }
 
 
-        // Recalculate targets after deleting
+        // Recalculate targets after deletin
         await updateTargets(userid);
 
 
