@@ -20,7 +20,7 @@ async function login(req, res,next) {
         }
 
         const user = result.rows[0];
-
+        console.log(user)
         const match = await bcrypt.compare(
             password,
             user.password
