@@ -86,7 +86,7 @@ const id=analysis_id
         const result = await pool.query(
             `
             DELETE FROM analyzed_foods
-            WHERE analysis_id=$1 AND userid=$2
+            WHERE analysis_id=$1
             RETURNING *
             `,
             [
