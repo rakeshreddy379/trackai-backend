@@ -11,6 +11,7 @@ async function login(req, res,next) {
              WHERE email = $1`,
             [email]
         );
+        console.log(result.rows[0])
 //need to check if the user is verified or not before allowing login
         if (result.rows.length === 0) {
             return res.status(404).json({
