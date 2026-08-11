@@ -90,8 +90,7 @@ const id=analysis_id
             RETURNING *
             `,
             [
-                id,
-                userid
+                analysis_id
             ]
         );
 
