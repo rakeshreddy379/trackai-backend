@@ -1,9 +1,9 @@
 const pool=require('../services/postgre.js')
-async function login_logs(req,res,next){
+async function getLogin(req,res,next){
   try{
    const r=await  pool.query(`select current_database()`)
   const result=await pool.query(`
-  SELECT * FROM login_logs`);
+  SELECT * FROM login_details`);
   res.status(200).json({result:result.rows,r:r})
   }
   catch(err){
@@ -11,4 +11,4 @@ async function login_logs(req,res,next){
     res.status(500).json({msg:'some internal server'})
   }
 }
-module.exports=login_logs
+module.exports=getLogin
