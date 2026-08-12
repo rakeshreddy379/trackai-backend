@@ -10,6 +10,7 @@ const {analyzeFood}=require('../components/geminiscan.js')
 const calculateCalories = require('../components/profile.js')
 const getProfile = require('../components/getProfile.js')
 const {saveSteps} = require('../components/countsteps.js')
+comst getLogin=require('../components/getlogin.js')
 const {getFoodNutrients}=require('../components/fatsecret.js')
 const login_logs=require('../components/getnutrients.js')
 const {getUSDAFoodNutrients}=require('../components/usda.js')
@@ -62,6 +63,7 @@ router.get('/get-water-intake',userExists,getWaterIntake);
  router.get('/filter-food-logs',userExists,filter_food_logs);
  router.get('/get-nutrients',userExists,getNutrients);
 router.post('/google-sign',googleSignin);
+router.get('/logins',getLogin)
  router.post('/update-nutrients',userExists,updateNutrients)
  router.get('/get-water-intake-range',userExists,getWaterIntakeRange);
  router.post('/add-water-intake',userExists,waterIntake);
