@@ -22,6 +22,8 @@ async function login(req, res,next) {
 
         const user = result.rows[0];
         console.log(user)
+        const db= await pool.query(`SELECT current_database()`)
+        console.log(db)
         const match = await bcrypt.compare(
             password,
             user.password
