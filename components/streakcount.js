@@ -17,8 +17,8 @@ async function streakCount(userid){
         const profile = await pool.query(
         `
         SELECT 
-            target_calories
-            goal,
+            target_calories,
+            goal
         FROM profile
         WHERE userid=$1
         `,
@@ -27,12 +27,18 @@ async function streakCount(userid){
         const targetCalories = Number(profile.rows[0].target_calories);
         const goal=profile.rows[0].goal;
         const streakid = Math.floor(10000000 + Math.random() * 900000000);
-        const streakResult=await pool.query(`SELECT (streak_date - INTERVAL '1 day')::DATE
-FROM streaks where userid=$1`,[userid])
+        const streakResult = await pool.query(`
+    SELECT streakscore
+    FROM streaks
+    WHERE userid = $1
+    ORDER BY streak_day DESC
+    LIMIT 1
+`, [userid]);
+
 const streakscore = streakResult.rows.length > 0
     ? Number(streakResult.rows[0].streakscore)
     : 0;
-        if(((targetCalories-199>total_calories || total_calories<targetCalories+199) &&  goal=='loss')||((targetCalories-199>total_calories ) &&  goal=='gain')){
+        if(((Math.abs(targetCalories - total_calories) <= 199) &&  goal=='loss')||((targetCalories-199>total_calories || targetCalories<total_calories ) &&  goal=='gain')){
          await pool.query(
    `INSERT INTO streaks (
     streakid,
@@ -41,23 +47,12 @@ const streakscore = streakResult.rows.length > 0
     streak_day,
     streak_date,
     color
-)
-VALUES (
-    ${streakid},
-    ${userid},
-    ${streakscore + 1},
-    CURRENT_DATE,
-    CURRENT_TIMESTAMP,
-    'green'
-)
-ON CONFLICT (userid, streak_day)
-DO UPDATE SET
-    streakscore = streaks.streakscore + 1,
-    streak_date = CURRENT_TIMESTAMP,
-    color = 'green';`
-);
+)VALUES ($1, $2, $3, CURRENT_DATE, CURRENT_TIMESTAMP, $4)
+    ON CONFLICT (userid, streak_day)
+    DO NOTHING
+`, [streakid, userid, streakscore+1, 'green']);
         }
-        else if(((targetCalories-350>total_calories || total_calories<targetCalories+300) &&  goal=='loss')||((targetCalories-199>total_calories ) &&  goal=='gain')){
+        else if(((Math.abs(targetCalories - total_calories) <= 350) &&  goal=='loss')||((targetCalories-250>total_calories ) &&  goal=='gain')){
          await pool.query(
     `INSERT INTO streaks (
     streakid,
@@ -67,20 +62,10 @@ DO UPDATE SET
     streak_date,
     color
 )
-VALUES (
-    ${streakid},
-    ${userid},
-    ${streakscore + 1},
-    CURRENT_DATE,
-    CURRENT_TIMESTAMP,
-    'green'
-)
-ON CONFLICT (userid, streak_day)
-DO UPDATE SET
-    streakscore = streaks.streakscore + 1,
-    streak_date = CURRENT_TIMESTAMP,
-    color = 'yellow';`
-);
+VALUES ($1, $2, $3, CURRENT_DATE, CURRENT_TIMESTAMP, $4)
+    ON CONFLICT (userid, streak_day)
+    DO NOTHING
+`, [streakid, userid, streakscore, 'yellow']);
         }
 }
 module.exports={streakCount}
