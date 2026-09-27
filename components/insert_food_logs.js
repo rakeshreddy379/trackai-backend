@@ -1,6 +1,6 @@
 const {updateTargets} = require("../components/updateTargets");
 const pool = require("../services/postgre");
-
+const streakCount=require("../components/streakcount")
 async function insertFoodLog(req,res){
 
 try{
@@ -26,11 +26,9 @@ meal_type,
 new Date()
 ]
 );
-
-
 // update target
-
-
+//streakcount
+streakCount(userid)
 res.status(201).json({
  message:"Food log inserted successfully"
 });

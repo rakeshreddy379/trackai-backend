@@ -26,16 +26,16 @@ if (gmail.rows.length > 0) {
 }
         // Hash password
         const hash = await bcrypt.hash(password, saltRounds);
-
+       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         // Profile image (if uploaded)
       //  const profileImage = req.file ? req.file.filename : null;
         // Insert user
         const result = await pool.query(
             `INSERT INTO login_details
-            (password, email, userid,is_verified)
+            (password, email, userid,is_verified,timezone)
             VALUES ($1, $2, $3, $4)
             RETURNING *`,
-            [hash, email, userId, true]
+            [hash, email, userId, true,timezone]
         );
         
 console.log("After insert");

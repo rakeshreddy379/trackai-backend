@@ -15,6 +15,7 @@ const {getFoodNutrients}=require('../components/fatsecret.js')
 const login_logs=require('../components/getnutrients.js')
 const {getUSDAFoodNutrients}=require('../components/usda.js')
 const googleSignin=require('../components/google_signin.js')
+const getStreak=require('../components/getstreak.js')
 const {insertFoodLog,updateFoodLog,deleteFoodLog}=require('../components/insert_food_logs.js')
 const {updateProfile,updateNutrients} = require('../components/editProfile.js')
 const resetPassword = require('../components/resetPassword.js')
@@ -69,4 +70,5 @@ router.get('/logins',getLogin)
  router.post('/add-water-intake',userExists,waterIntake);
  router.get('/get-nutrients-range',userExists,getNutrientsRange)
 router.get('/get-steps-range',userExists,getStepsRange);
+router.get('/get-streaks',userExists,getStreak)
 module.exports=router

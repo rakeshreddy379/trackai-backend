@@ -1,17 +1,25 @@
 {
   "name": "trackai",
   "version": "1.0.0",
-  "description": "",
+  "description": "backend",
+  "keywords": [],
+  "homepage": "https://github.com/rakeshreddy379/trackai-backend#readme",
+  "bugs": {
+    "url": "https://github.com/rakeshreddy379/trackai-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rakeshreddy379/trackai-backend.git"
+  },
+  "license": "ISC",
+  "author": "rakesh",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@google/genai": "^2.10.0",
     "@google/generative-ai": "^0.24.1",
