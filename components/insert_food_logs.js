@@ -1,6 +1,6 @@
 const {updateTargets} = require("../components/updateTargets");
 const pool = require("../services/postgre");
-const streakCount=require("../components/streakcount")
+const {streakCount}=require("../components/streakcount")
 async function insertFoodLog(req,res){
 
 try{
