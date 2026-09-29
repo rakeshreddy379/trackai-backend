@@ -6,7 +6,6 @@ async function getStreak(req,res,next){
     SELECT *
     FROM streaks
     WHERE userid = $1
-      AND streak_date::DATE = (CURRENT_TIMESTAMP - INTERVAL '1 day')::DATE
 `, [userid]);
 console.log(result.rows);
 res.status(200).json({data:result.rows[0]})
