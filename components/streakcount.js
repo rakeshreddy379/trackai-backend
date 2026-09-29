@@ -38,7 +38,7 @@ async function streakCount(userid){
 const streakscore = streakResult.rows.length > 0
     ? Number(streakResult.rows[0].streakscore)
     : 0;
-        if(((Math.abs(targetCalories - total_calories) <= 199) &&  goal=='loss')||((targetCalories-199>total_calories || targetCalories<total_calories ) &&  goal=='gain')){
+        if(((Math.abs(targetCalories - total_calories) <= 199) &&  goal=='loss')||((targetCalories-199<total_calories || targetCalories<total_calories ) &&  goal=='gain')){
          await pool.query(
    `INSERT INTO streaks (
     streakid,
@@ -48,11 +48,11 @@ const streakscore = streakResult.rows.length > 0
     streak_date,
     color
 )VALUES ($1, $2, $3, CURRENT_DATE, CURRENT_TIMESTAMP, $4)
-    ON CONFLICT (userid, streak_day)
+    ON CONFLICT (userid, ,streak_day, color)
     DO NOTHING
 `, [streakid, userid, streakscore+1, 'green']);
         }
-        else if(((Math.abs(targetCalories - total_calories) <= 350) &&  goal=='loss')||((targetCalories-250>total_calories ) &&  goal=='gain')){
+        else if(((Math.abs(targetCalories - total_calories) <= 350) &&  goal=='loss')||((targetCalories-250<total_calories) &&  goal=='gain')){
          await pool.query(
     `INSERT INTO streaks (
     streakid,
@@ -63,7 +63,7 @@ const streakscore = streakResult.rows.length > 0
     color
 )
 VALUES ($1, $2, $3, CURRENT_DATE, CURRENT_TIMESTAMP, $4)
-    ON CONFLICT (userid, streak_day)
+    ON CONFLICT (userid, streak_day,color)
     DO NOTHING
 `, [streakid, userid, streakscore, 'yellow']);
         }
