@@ -1,7 +1,7 @@
 const pool = require("../services/postgre");
 async function getStreak(req,res,next){
     try{
-    const {userid}=req.body
+    const {userid}=req.query || req.params
   const result = await pool.query(`
     SELECT *
     FROM streaks
