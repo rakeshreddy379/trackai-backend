@@ -8,7 +8,7 @@ async function getStreak(req,res,next){
     WHERE userid = $1
 `, [userid]);
 console.log(result.rows);
-res.status(200).json({data:result.rows[0]})
+res.status(200).json({data:result.rows})
   }
   catch(error){
     res.status(500).json({msg:"internel server"})
