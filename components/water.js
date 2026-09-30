@@ -1,5 +1,5 @@
 const pool = require("../services/postgre.js");
-
+const {waterStreaks}=require('.waterstreaks.js')
 async function addWaterIntake(req, res) {
 
     try {
@@ -25,7 +25,7 @@ async function addWaterIntake(req, res) {
                 updated_at = CURRENT_TIMESTAMP`,
             [userid, intake_date, water_ml]
         );
-
+waterStreaks(userid)
         res.status(200).json({
             success: true,
             message: "Water intake updated successfully"
