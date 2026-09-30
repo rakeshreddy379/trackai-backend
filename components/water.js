@@ -1,5 +1,5 @@
 const pool = require("../services/postgre.js");
-const {waterStreaks}=require('.waterstreaks.js')
+const {waterStreaks}=require('./waterstreaks.js')
 async function addWaterIntake(req, res) {
 
     try {
