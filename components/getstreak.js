@@ -9,7 +9,7 @@ async function getStreak(req,res,next){
 `, [userid]);
 const water=await pool.query(`select * from water_streaks where userid=$1`,[userid])
 const nutrients=await pool.query(`select * from nutrients_streaks where userid=$1`,[userid])
-console.log(result.rows);
+
 res.status(200).json({calories:calories.rows,nutrients:nutrients.rows,water:water.rows})
   }
   catch(error){
