@@ -33,7 +33,7 @@ if (gmail.rows.length > 0) {
         const result = await pool.query(
             `INSERT INTO login_details
             (password, email, userid,is_verified,timezone)
-            VALUES ($1, $2, $3, $4)
+            VALUES ($1, $2, $3, $4,$5)
             RETURNING *`,
             [hash, email, userId, true,timezone]
         );
