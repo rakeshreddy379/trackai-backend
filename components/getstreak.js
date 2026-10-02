@@ -2,13 +2,15 @@ const pool = require("../services/postgre");
 async function getStreak(req,res,next){
     try{
     const {userid}=req.query || req.params
-  const result = await pool.query(`
+  const calories = await pool.query(`
     SELECT *
     FROM streaks
     WHERE userid = $1
 `, [userid]);
+const water=await pool.query(`select * from water_streaks where userid=$1`,[userid])
+const nutrients=await pool.query(`select * from nutrients_streaks where userid=$1`,[userid])
 console.log(result.rows);
-res.status(200).json({data:result.rows})
+res.status(200).json({calories:calories.rows,nutrients:nutrients.rows,water:water.rows})
   }
   catch(error){
     res.status(500).json({msg:"internel server"})
