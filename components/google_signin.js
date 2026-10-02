@@ -45,7 +45,7 @@ async function googleLogin(req, res) {
         if (result.rows.length === 0) {
 
             userid = await generateUserId();
-
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             console.log("Generated userid:", userid);
 
             await pool.query(
@@ -55,15 +55,17 @@ async function googleLogin(req, res) {
                     email,
                     userid,
                     is_verified,
-                    google_id
+                    google_id,
+                    timezone
                 )
-                VALUES ($1, $2, $3, $4)
+                VALUES ($1, $2, $3, $4,$5)
                 `,
                 [
                     email,
                     userid,
                     true,
-                    googleId
+                    googleId,
+                    timezone
                 ]
             );
 
