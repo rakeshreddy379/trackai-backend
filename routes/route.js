@@ -25,6 +25,7 @@ const createOrder = require("../components/createOrder");
 const waterIntake = require("../components/water.js");
 const { getSteps, getStepsRange } = require('../components/getSteps.js');
 const verifyPayment = require("../components/verifyPayment");
+const {planMymeal}=require('../components/planmymeal.js')
 const router = express.Router();    
 const upload = multer({
     dest: "uploads/"
@@ -71,4 +72,6 @@ router.get('/logins',getLogin)
  router.get('/get-nutrients-range',userExists,getNutrientsRange)
 router.get('/get-steps-range',userExists,getStepsRange);
 router.get('/get-streaks',userExists,getStreak)
+router.get('/plan-my-meal',userExists,planMymeal)
 module.exports=router
+
