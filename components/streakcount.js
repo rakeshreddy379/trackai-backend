@@ -18,21 +18,15 @@ async function streakCount(userid){
 
 
         const {
-            total_calories,
-            total_protein,
-            total_carbs,
-            total_fat
+            total_calories
         } = result.rows[0];
 
         // Get current targets
         const profile = await pool.query(
-        `g
+        `
         SELECT 
             target_calories,
-             protein,
-            carbs,
-            fat,
-            water_ml,
+             
             goal
         FROM profile
         WHERE userid=$1
@@ -40,10 +34,7 @@ async function streakCount(userid){
         [userid]
         );
         const targetCalories = Number(profile.rows[0].target_calories);
-        const protein = Number(profile.rows[0].protein);
-        const carbs = Number(profile.rows[0].carbs);
-        const fat = Number(profile.rows[0].fat);
-        const water_ml=profile.rows[0].water_ml
+    
         //get todays color
         const today = await pool.query(`
     SELECT streakscore,streakid, color
