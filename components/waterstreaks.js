@@ -1,5 +1,5 @@
 const pool = require("../services/postgre");
-async function nutrientStreaks(userid){
+async function waterStreaks(userid){
     
    const result = await pool.query(
         `
@@ -104,4 +104,4 @@ VALUES ($1, $2, $3, CURRENT_DATE, CURRENT_TIMESTAMP, $4)
     }}
    
 
-module.exports={nutrientStreaks}
+module.exports={waterStreaks}

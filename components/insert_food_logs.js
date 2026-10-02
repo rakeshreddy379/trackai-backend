@@ -27,7 +27,7 @@ meal_type,
 new Date()
 ]
 );
-// update target
+//update target
 //streakcount
 streakCount(userid)
 nutrientStreaks(userid)
