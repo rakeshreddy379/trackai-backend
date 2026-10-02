@@ -13,6 +13,7 @@ console.log(result.rows);
 res.status(200).json({calories:calories.rows,nutrients:nutrients.rows,water:water.rows})
   }
   catch(error){
+    console.log(error)
     res.status(500).json({msg:"internel server"})
 
   }
