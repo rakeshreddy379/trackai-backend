@@ -81,7 +81,7 @@ Return ONLY JSON:
     {
       "meal_type":name,
       "foods":[
-        {"name":"food","quantity":"serving either as count or grams"}
+        {"name":"food","quantity":"serving either as count or grams,"kcal":0,"protein":0,"carbs":0,"fat":0,"fiber":0,"sugar":0"}
       ]
     }
   ],

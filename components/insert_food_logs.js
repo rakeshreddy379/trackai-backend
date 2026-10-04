@@ -49,6 +49,7 @@ async function updateFoodLog(req,res){
 const {userid,analysis_id,analyzed_foods}=req.body;
  const id=analysis_id
 
+ const result=
 await pool.query(
 `
 UPDATE analyzed_foods
@@ -62,7 +63,11 @@ userid
 ]
 );
 
-
+if (result.rowCount === 0) {
+    return res.status(404).json({
+        msg: "food not found"
+    });
+}
 // recalculate targets
 
 
