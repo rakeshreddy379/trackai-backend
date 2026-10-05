@@ -28,7 +28,42 @@ const verifyPayment = require("../components/verifyPayment");
 const {planMymeal}=require('../components/planmymeal.js')
 const router = express.Router();    
 const upload = multer({
-    dest: "uploads/"
+    dest: "uploads/",
+
+    limits: {
+        fileSize: 10 * 1024 * 1024 // 10 MB
+    },
+
+    fileFilter: (req, file, cb) => {
+
+        const allowed = [
+            // Images
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+
+            // Excel
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/vnd.ms-excel",
+
+            // PDF
+            "application/pdf",
+
+            // Word (.docx)
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+
+            // Word (.doc)
+            "application/msword"
+        ];
+
+        if (allowed.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error(
+                "Only image, Excel, PDF and Word files are allowed"
+            ));
+        }
+    }
 });
 router.post(
     "/analyze-food",
@@ -72,6 +107,6 @@ router.get('/logins',getLogin)
  router.get('/get-nutrients-range',userExists,getNutrientsRange)
 router.get('/get-steps-range',userExists,getStepsRange);
 router.get('/get-streaks',userExists,getStreak)
-router.get('/plan-my-meal',userExists,planMymeal)
+router.get('/plan-my-meal',upload.single("file"),userExists,planMymeal)
 module.exports=router
 
